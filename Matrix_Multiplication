@@ -1,0 +1,23 @@
+mkdir /home/cloudera/Desktop/Exp3LFS
+cd /home/cloudera/Desktop/Exp3LFS
+
+cat > M.txt
+0,0,3
+0,1,4
+1,0,2
+CTRL+D
+
+cat > N.txt
+0,0,1
+1,0,3
+1,1,4
+CTRL+D
+
+hadoop fs -mkdir /user/EXP3DFS
+hadoop fs -put /home/cloudera/Desktop/Exp3LFS/M.txt /user/EXP3DFS
+hadoop fs -put /home/cloudera/Desktop/Exp3LFS/N.txt /user/EXP3DFS
+
+hadoop jar /home/cloudera/Desktop/Exp3LFS/MatrixMultiply.jar MatrixMultiply /user/EXP3DFS/M.txt /user/EXP3DFS/N.txt /user/EXP3DFS/output
+
+hadoop fs -ls /user/EXP3DFS/output
+hadoop fs -cat /user/EXP3DFS/output/part-r-00000
