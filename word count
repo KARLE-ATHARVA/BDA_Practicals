@@ -1,0 +1,12 @@
+mkdir /home/cloudera/Desktop/word_count
+cd /home/cloudera/Desktop/word_count
+vi wc.txt   (insert text → ESC :wq)
+
+hadoop fs -mkdir /DFSEXP2
+hadoop fs -put /home/cloudera/Desktop/word_count/wc.txt /DFSEXP2
+hadoop fs -ls /DFSEXP2
+
+hadoop jar /home/cloudera/Desktop/word_count/WordCount.jar WordCount /DFSEXP2/wc.txt /output1
+
+hadoop fs -ls /output1
+hadoop fs -cat /output1/part-r-00000
