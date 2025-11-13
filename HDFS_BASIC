@@ -5,6 +5,13 @@ ls /home/cloudera/Desktop
 mkdir /home/cloudera/Desktop/Exp1
 cd /home/cloudera/Desktop/Exp1
 vi file1.txt   (add text → ESC :wq)
+[
+i
+[I AM AN INDIAN. I LOVE INDIA.]
+ESC
+:wq
+ENTER
+]
 
 hadoop fs -ls /user
 hadoop fs -mkdir /DFSEXP1
