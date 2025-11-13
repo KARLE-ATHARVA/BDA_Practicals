@@ -1,0 +1,114 @@
+// ---------- Start: switch to the database (creates it if not present) ----------
+use CompanyDB
+// Explanation: selects CompanyDB; if it doesn't exist MongoDB will create it when you insert documents.
+
+// ---------- PART 1: CREATE (Insert employee documents) ----------
+/*
+ Inserting 5 employees. Fields: _id, Ename, age, deptNo, salary
+*/
+db.Employee.insertMany([
+  { "_id": 101, "Ename": "Ram",  "age": 29, "deptNo": 5, "salary": 60000 },
+  { "_id": 102, "Ename": "Sita", "age": 25, "deptNo": 4, "salary": 45000 },
+  { "_id": 103, "Ename": "Aadi", "age": 30, "deptNo": 5, "salary": 55000 },
+  { "_id": 104, "Ename": "Raj",  "age": 28, "deptNo": 3, "salary": 40000 },
+  { "_id": 105, "Ename": "Joy",  "age": 24, "deptNo": 2, "salary": 35000 }
+])
+// Explanation: insertMany adds multiple documents in one call. Each document must have unique _id.
+
+// ---------- PART 1: READ (Display documents) ----------
+db.Employee.find()
+// Explanation: returns a cursor with all documents in Employee collection.
+
+db.Employee.find().pretty()
+// Explanation: pretty() formats the output to be human-readable (indentation).
+
+// ---------- PART 2A: SELECTION (Filtering) ----------
+
+// 1) Retrieve employees where deptNo = 5
+db.Employee.find({ deptNo: 5 }).pretty()
+// Explanation: filter by deptNo field equals 5.
+
+// 2) Retrieve employees whose salary > 50000
+db.Employee.find({ salary: { $gt: 50000 } }).pretty()
+// Explanation: $gt stands for greater than.
+
+// 3) Retrieve employees in deptNo = 4 AND salary < 50000
+db.Employee.find({ $and: [ { deptNo: 4 }, { salary: { $lt: 50000 } } ] }).pretty()
+// Explanation: $lt stands for less than. $and explicitly combines conditions.
+
+// ---------- PART 2B: PROJECTION (Display only certain fields) ----------
+
+// 4) Retrieve only name & salary (hide _id for clarity)
+db.Employee.find({}, { Ename: 1, salary: 1, _id: 0 }).pretty()
+// Explanation: projection object {field:1} includes the field, {field:0} excludes. _id is included by default unless set to 0.
+
+// 5) Retrieve all fields except deptNo
+db.Employee.find({}, { deptNo: 0 }).pretty()
+// Explanation: set deptNo:0 to exclude it from results.
+
+// ---------- PART 2C: SELECTION + PROJECTION ----------
+
+// 6) Find employees (Ename, deptNo) where age = 29
+db.Employee.find({ age: 29 }, { Ename: 1, deptNo: 1, _id: 0 }).pretty()
+
+// 7) Find employee details (except salary) whose age < 29
+db.Employee.find({ age: { $lt: 29 } }, { salary: 0 }).pretty()
+
+// ---------- PART 3: UPDATE operations ----------
+
+// 8) Update salary of Sita to 60000
+db.Employee.updateOne(
+  { Ename: "Sita" },             // filter
+  { $set: { salary: 60000 } }    // update operator
+)
+// Explanation: updateOne updates the first matching document. $set changes only the specified field.
+
+// 9) Update deptNo of Joy to 4
+db.Employee.updateOne(
+  { Ename: "Joy" },
+  { $set: { deptNo: 4 } }
+)
+
+//Multiple fields update
+db.Employee.updateOne(
+  { Ename: "SMITH" },
+  {
+    $set: {
+      Salary: 2000,
+      Job: "Manager"
+    }
+  }
+)
+
+
+// Verify updates:
+db.Employee.find({ Ename: { $in: ["Sita","Joy"] } }).pretty()
+
+// ---------- PART 3: DELETE (Remove) ----------
+
+// 10) Remove the document with _id = 103 (Aadi)
+db.Employee.deleteOne({ _id: 103 })
+// Explanation: deleteOne removes a single document that matches the filter. Use deleteMany to remove multiple.
+
+// Verify removal:
+db.Employee.find({ _id: 103 }).pretty()
+
+// 11) (Optional) Drop the entire Employee collection when you want to remove all data
+// db.Employee.drop()
+// Explanation: drop() deletes the collection and its indexes. Commented out so you don't accidentally delete data.
+
+// ---------- Extras / Useful commands for the practical ----------
+
+// Show all collections in the current DB
+show collections
+
+// Show databases on the server (your DB will appear only after data is inserted)
+show dbs
+
+// Count documents in Employee collection
+db.Employee.countDocuments()
+
+// Pretty summary: list every document again
+db.Employee.find().pretty()
+
+// ---------- End of script ----------
