@@ -1,0 +1,18 @@
+ls /home
+ls /home/cloudera
+ls /home/cloudera/Desktop
+
+mkdir /home/cloudera/Desktop/Exp1
+cd /home/cloudera/Desktop/Exp1
+vi file1.txt   (add text → ESC :wq)
+
+hadoop fs -ls /user
+hadoop fs -mkdir /DFSEXP1
+hadoop fs -ls /
+
+hadoop fs -put /home/cloudera/Desktop/Exp1 /DFSEXP1
+
+mkdir /home/cloudera/Desktop/folder2
+ls /home/cloudera/Desktop
+
+hadoop fs -get /DFSEXP1/Exp1/file1.txt /home/cloudera/Desktop/folder2
