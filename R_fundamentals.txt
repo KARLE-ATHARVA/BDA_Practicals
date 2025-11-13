@@ -1,0 +1,87 @@
+#Create a dataframe
+emp <- data.frame(
+Emp_id=c(101,102,103,104),
+Name=c("Ishaan","Suyog","Swayam","Prathmesh"),
+Salary=c(5000,2000,4000,7000),
+Department=c("HR","IT","Management","IT")
+)
+
+#Print the dataframe
+emp
+# OR print(emp)
+
+#Append new Row
+new_row <- data.frame(
+Emp_id = 105,
+Name="Rohit",
+Salary=9000,
+Department="HR"
+)
+
+emp <- rbind(emp, new_row)
+
+emp
+
+
+#Append New Column
+new_column <- data.frame(
+Age = c(23,34,54,12,45)
+)
+
+emp <- cbind(emp,new_column)
+emp
+
+#Derive a column from another column 
+emp$Bonus <- emp$Salary*0.10
+
+emp
+
+
+
+#Print Rows And Columns 
+
+emp[1,] #Prints frist row
+
+emp[1:4,] # Prints first forur rows
+
+emp[,c("Emp_id","Name")]
+
+emp[,-1]
+
+
+
+
+#Subset returns row
+
+subset(emp,Emp_id==102)
+
+subset(emp,Salary>=4000)
+
+
+subset(emp,Department=="Management")
+
+#Delete a Row and Column
+
+emp <- subset(emp, Name!= "Rohit")
+emp
+
+emp$Bonus <- NULL
+emp
+
+#Update Operations
+
+emp$Salary[emp$Emp_id==103] <- 15000
+emp
+
+emp$Department[emp$Name =="Suyog"]<-"HR"
+emp
+
+#Read
+subset(emp,Department=="HR",select=c(Name,Salary))   ##IMP
+
+
+
+subset(emp, emp$Salary>5000 & emp$Age>22)
+
+
+subset(emp,emp$Age>12,select=c(Name))
