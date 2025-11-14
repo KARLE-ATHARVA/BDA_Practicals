@@ -5,6 +5,7 @@ vi wc.txt   (insert text → ESC :wq)
 hadoop fs -mkdir /DFSEXP2
 hadoop fs -put /home/cloudera/Desktop/word_count/wc.txt /DFSEXP2
 hadoop fs -ls /DFSEXP2
+jar -tf WordCount.jar
 
 hadoop jar /home/cloudera/Desktop/word_count/WordCount.jar WordCount /DFSEXP2/wc.txt /output1
 
